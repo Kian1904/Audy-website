@@ -1,0 +1,6 @@
+{
+  "name": "curhatdy",
+  "description": "Layanan curhat online modern, aman, dan tepercaya bersama Audia untuk kenyamanan bercerita Anda.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
