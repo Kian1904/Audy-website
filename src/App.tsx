@@ -200,10 +200,14 @@ export default function App() {
     setDidRelease(false);
   };
 
-  // Generate WhatsApp link helper
-  const getWhatsAppLink = () => {
-    const phoneNumber = '62895704658010'; // Raw Indonesian format (+62 895-7046-58010)
-    
+  // Generate Telegram link helper
+  const getTelegramLink = () => {
+    const phoneNumber = '6289525817105'; // Raw Indonesian format (+62 895-2581-7105)
+    return `https://t.me/${phoneNumber}`;
+  };
+
+  // Generate Telegram message helper
+  const getTelegramMessage = () => {
     const totalPriceText = `${(selectedService.priceVal * quantity / 1000)}k`;
     const totalDurationText = `${selectedService.durationVal * quantity} menit`;
 
@@ -212,7 +216,7 @@ export default function App() {
       customTextSegment = `\n\n*Pesan / Cerita Awal Saya:* _"${userInitialVentText.trim()}"_`;
     }
 
-    const message = `Halo Audia (curhatdy), saya ingin memesan layanan curhat sebagai berikut:
+    return `Halo Audia (curhatdy), saya ingin memesan layanan curhat sebagai berikut:
 
 *Layanan:* ${selectedService.name} ${selectedService.emoji}
 *Durasi Sesi:* ${totalDurationText} (Multiplier x${quantity})
@@ -220,8 +224,16 @@ export default function App() {
 *Metode Pembayaran:* GoPay (Exclusive)${customTextSegment}
 
 Mohon info jadwal slot kosongnya ya, terima kasih banyak Audia! ✨`;
+  };
 
-    return `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+  // Safe clipboard helper
+  const copyMessageToClipboard = () => {
+    try {
+      const msg = getTelegramMessage();
+      navigator.clipboard.writeText(msg);
+    } catch (e) {
+      console.warn('Clipboard copy failed:', e);
+    }
   };
 
   return (
@@ -1001,15 +1013,16 @@ Mohon info jadwal slot kosongnya ya, terima kasih banyak Audia! ✨`;
                     : 'bg-white/45 border-[#CDE1D4]/40 text-[#426651]'
                 }`}>
                   <Info className={`w-3.5 h-3.5 shrink-0 mt-0.5 ${theme === 'dark' ? 'text-[#3EB87F]' : 'text-[#3D5E4E]'}`} />
-                  <span>Sesi curhat akan berlangsung via WhatsApp, bisa menggunakan Media Chatting ketikan atau diskusikan via Voice Call.</span>
+                  <span>Sesi curhat akan berlangsung via Telegram, bisa menggunakan Media Chatting ketikan atau diskusikan via Voice Call.</span>
                 </div>
               </div>
 
-              {/* Booking CTA Button targeting the specific WhatsApp action */}
+              {/* Booking CTA Button targeting the specific Telegram action */}
               <div className="space-y-2 pt-2">
                 <a 
-                  id="estimator-whatsapp-booking-btn"
-                  href={getWhatsAppLink()}
+                  id="estimator-telegram-booking-btn"
+                  href={getTelegramLink()}
+                  onClick={copyMessageToClipboard}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={`w-full font-semibold py-4 px-6 rounded-2xl shadow-xs text-center transition-all hover:shadow-md cursor-pointer block text-sm sm:text-base transform active:scale-98 ${
@@ -1018,13 +1031,13 @@ Mohon info jadwal slot kosongnya ya, terima kasih banyak Audia! ✨`;
                       : 'bg-[#1E3B2E] hover:bg-[#0E1E16] text-[#EDFAF2]'
                   }`}
                 >
-                  Pesan via WhatsApp (Mulai Chat) ⚡
+                  Pesan via Telegram (Mulai Chat) ⚡
                 </a>
                 
                 <p className={`text-center text-[10px] font-mono tracking-tight uppercase ${
                   theme === 'dark' ? 'text-stone-400' : 'text-stone-500'
                 }`}>
-                  ⚡ Minat? Langsung Chat Aja Boss!
+                  ⚡ Detail format pesanan akan otomatis tersalin ke clipboard!
                 </p>
               </div>
 
@@ -1303,7 +1316,7 @@ Mohon info jadwal slot kosongnya ya, terima kasih banyak Audia! ✨`;
               <p className={`text-xs sm:text-sm mt-2 leading-relaxed ${
                 theme === 'dark' ? 'text-[#8DA393]' : 'text-stone-600'
               }`}>
-                Begitu pembayaran diverifikasi, Audia akan mengundang Anda ke ruang obrolan tertutup di WhatsApp. Anda bebas memulai dengan tulisan chat ketik biasa, mengirim pesan suara, atau berdiskusi via Voice Call jika memesan kelipatan sesi.
+                Begitu pembayaran diverifikasi, Audia akan mengundang Anda ke ruang obrolan tertutup di Telegram. Anda bebas memulai dengan tulisan chat ketik biasa, mengirim pesan suara, atau berdiskusi via Voice Call jika memesan kelipatan sesi.
               </p>
             </div>
 
@@ -1336,7 +1349,7 @@ Mohon info jadwal slot kosongnya ya, terima kasih banyak Audia! ✨`;
                 Bandingkan, Pilih, dan Bagikan Bebanmu Bebas Cemas.
               </h3>
               <p className="text-xs sm:text-sm text-stone-400 max-w-xl">
-                Temukan ketenangan emosional Anda hari ini. Hubungi Audia di WhatsApp ke nomor resmi <span className="text-[#3FB86F] font-bold">+62 895-7046-58010</span>. Bersama curhatdy, tidak ada cerita yang terlalu berat untuk diringankan.
+                Temukan ketenangan emosional Anda hari ini. Hubungi Audia di Telegram ke nomor resmi <span className="text-[#3FB86F] font-bold">+62 895-2581-7105</span>. Bersama curhatdy, tidak ada cerita yang terlalu berat untuk diringankan.
               </p>
             </div>
 
@@ -1344,19 +1357,19 @@ Mohon info jadwal slot kosongnya ya, terima kasih banyak Audia! ✨`;
             <div className="md:col-span-4 flex flex-col items-stretch sm:items-end justify-center">
               
               <a 
-                id="direct-whatsapp-final-btn"
-                href="https://wa.me/62895704658010?text=Halo%20Audia,%20saya%20tertarik%20dengan%20layanan%20curhatdy!%20Boleh%20infokan%20slot%20jadwal%20kosongnya%20sekarang?"
+                id="direct-telegram-final-btn"
+                href="https://t.me/6289525817105"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2.5 bg-[#25D366] hover:bg-[#1ebd59] text-white font-bold text-sm sm:text-base py-4 px-6 rounded-2xl transition-all shadow-md active:scale-95 text-center cursor-pointer animate-pulse"
+                className="inline-flex items-center justify-center gap-2.5 bg-[#0088cc] hover:bg-[#0077a3] text-white font-bold text-sm sm:text-base py-4 px-6 rounded-2xl transition-all shadow-md active:scale-95 text-center cursor-pointer animate-pulse"
                 style={{ animationDuration: '3s' }}
               >
-                <MessageCircle className="w-5 h-5 fill-white text-[#25D366]" />
+                <Send className="w-5 h-5 text-white" />
                 <span>Hubungi Audia Sekarang</span>
               </a>
 
               <span className="block text-[11px] text-stone-400 mt-2 text-center sm:text-right w-full">
-                No WA: +62 895-7046-58010
+                No Telegram: +62 895-2581-7105
               </span>
 
             </div>
