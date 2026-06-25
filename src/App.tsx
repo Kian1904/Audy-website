@@ -202,7 +202,7 @@ export default function App() {
 
   // Generate Telegram link helper
   const getTelegramLink = () => {
-    const phoneNumber = '+6289525817105'; // Raw Indonesian format (+62 895-2581-7105)
+    const phoneNumber = '6289525817105'; // Raw Indonesian format (+62 895-2581-7105)
     return `https://t.me/+${phoneNumber}`;
   };
 
