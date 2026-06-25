@@ -202,8 +202,8 @@ export default function App() {
 
   // Generate Telegram link helper
   const getTelegramLink = () => {
-    const phoneNumber = '6289525817105'; // Raw Indonesian format (+62 895-2581-7105)
-    return `https://t.me/${phoneNumber}`;
+    const phoneNumber = '+6289525817105'; // Raw Indonesian format (+62 895-2581-7105)
+    return `https://t.me/+${phoneNumber}`;
   };
 
   // Generate Telegram message helper
@@ -1358,7 +1358,7 @@ Mohon info jadwal slot kosongnya ya, terima kasih banyak Audia! ✨`;
               
               <a 
                 id="direct-telegram-final-btn"
-                href="https://t.me/6289525817105"
+                href="https://t.me/+6289525817105"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2.5 bg-[#0088cc] hover:bg-[#0077a3] text-white font-bold text-sm sm:text-base py-4 px-6 rounded-2xl transition-all shadow-md active:scale-95 text-center cursor-pointer animate-pulse"
